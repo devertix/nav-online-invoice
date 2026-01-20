@@ -17,6 +17,8 @@ abstract class InvoiceOperations
      */
     protected $config;
 
+    protected $compressInvoices = false;
+
     /**
      * Számlákat (számla műveleteket) összefogó objektum (collection) készítése
      */
@@ -34,6 +36,16 @@ abstract class InvoiceOperations
         return $this->invoices;
     }
 
+    public function enableCompression()
+    {
+        $this->compressInvoices = true;
+    }
+
+    public function isCompressionEnabled()
+    {
+        return $this->compressInvoices;
+    }
+
     /**
      * XML objektum konvertálása base64-es szöveggé
      * @param string $xml
@@ -41,6 +53,9 @@ abstract class InvoiceOperations
      */
     protected function convertXml(string $xml)
     {
+        if ($this->compressInvoices) {
+            $xml = gzencode($xml, 1);
+        }
         return base64_encode($xml);
     }
 }

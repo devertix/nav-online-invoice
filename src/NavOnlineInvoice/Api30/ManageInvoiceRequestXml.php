@@ -39,7 +39,7 @@ class ManageInvoiceRequestXml extends BaseRequestXml
         $operationsXml = $this->xml->addChild("invoiceOperations");
 
         // NOTE: the compression is currently not supported
-        $operationsXml->addChild("compressedContent", "false");
+        $operationsXml->addChild("compressedContent", $this->invoiceOperations->isCompressionEnabled() ? "true" : "false");
 
         // Számlák hozzáadása az XML-hez
         foreach ($this->invoiceOperations->getInvoices() as $invoice) {
